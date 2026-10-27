@@ -23,34 +23,68 @@ body {
     color: #58a6ff;
 }
 
-.navbar span {
+.navbar span,
+.main > p {
     color: #8b949e;
 }
 
 .main {
-    max-width: 900px;
-    margin: 100px auto;
+    max-width: 500px;
+    margin: 55px auto;
     padding: 20px;
-    text-align: center;
 }
 
 .main h1 {
-    font-size: 42px;
-    margin-bottom: 16px;
+    text-align: center;
 }
 
 .main > p {
-    color: #8b949e;
-    line-height: 1.7;
+    text-align: center;
+    margin-bottom: 30px;
 }
 
-.status {
-    max-width: 450px;
-    margin: 40px auto;
-    padding: 24px;
+.register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 25px;
+    background: #161b22;
     border: 1px solid #30363d;
     border-radius: 12px;
-    background: #161b22;
+}
+
+.register-form label {
+    font-size: 14px;
+    color: #c9d1d9;
+}
+
+.register-form input {
+    padding: 12px;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    background: #0d1117;
+    color: #e6edf3;
+    outline: none;
+}
+
+.register-form input:focus {
+    border-color: #58a6ff;
+}
+
+.register-form button {
+    margin-top: 10px;
+    padding: 12px;
+    background: #238636;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.register-form button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 .success {
@@ -59,4 +93,14 @@ body {
 
 .error {
     color: #f85149;
+}
+
+@media (max-width: 550px) {
+    .navbar {
+        padding: 0 5%;
+    }
+
+    .main {
+        margin-top: 25px;
+    }
 }
