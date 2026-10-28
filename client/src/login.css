@@ -1,0 +1,118 @@
+
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+    background: #0d1117;
+    color: #f0f6fc;
+    font-family: Arial, sans-serif;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 400px;
+    padding: 32px;
+    border: 1px solid #30363d;
+    border-radius: 14px;
+    background: #161b22;
+    box-sizing: border-box;
+}
+
+.login-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 54px;
+    height: 54px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: #238636;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.login-card h1 {
+    margin: 0;
+    text-align: center;
+    font-size: 27px;
+}
+
+.login-subtitle {
+    margin: 10px 0 28px;
+    text-align: center;
+    color: #8b949e;
+    font-size: 14px;
+}
+
+.login-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.login-card label {
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.login-card input {
+    width: 100%;
+    padding: 12px;
+    box-sizing: border-box;
+    border: 1px solid #30363d;
+    border-radius: 7px;
+    background: #0d1117;
+    color: #f0f6fc;
+    font-size: 14px;
+    outline: none;
+}
+
+.login-card input:focus {
+    border-color: #2f81f7;
+    box-shadow: 0 0 0 2px #2f81f733;
+}
+
+.login-card button {
+    margin-top: 18px;
+    padding: 12px;
+    border: none;
+    border-radius: 7px;
+    background: #238636;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.login-card button:hover {
+    background: #2ea043;
+}
+
+.login-card button:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.login-message {
+    margin-top: 18px;
+    font-size: 14px;
+    overflow-wrap: anywhere;
+}
+
+.login-message.error {
+    color: #ff7b72;
+}
+
+.login-message.success {
+    color: #3fb950;
+}
+
+.login-footer {
+    margin: 26px 0 0;
+    text-align: center;
+    color: #8b949e;
+    font-size: 12px;
+}
