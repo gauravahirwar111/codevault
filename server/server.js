@@ -1,5 +1,6 @@
-const Repository = require("./models/Repository");
-const authMiddleware = require("./middleware/authMiddleware");
+const File = require("./models/File");
+const Repository = require("./models/repository");
+const authMiddleware = require("./middleware/authmiddleware");
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
@@ -276,6 +277,110 @@ app.get("/api/repositories", authMiddleware, async (req, res) => {
 
         res.status(500).json({
             message: "Failed to fetch repositories."
+        });
+    }
+});
+
+app.post("/api/repositories/:repositoryId/files", authMiddleware, async (req, res) => {
+    try {
+        const { path, content = "" } = req.body;
+        const { repositoryId } = req.params;
+
+        if (!path || typeof path !== "string" || typeof content !== "string") {
+            return res.status(400).json({
+                message: "Valid file path and content are required."
+            });
+        }
+
+        const normalizedPath = path.replace(/\\/g, "/");
+
+        if (
+            normalizedPath.startsWith("/") ||
+            normalizedPath.split("/").some(part =>
+                !part || part === "." || part === ".."
+            ) ||
+            normalizedPath.length > 500
+        ) {
+            return res.status(400).json({
+                message: "Invalid file path."
+            });
+        }
+
+        const repository = await Repository.findOne({
+            _id: repositoryId,
+            owner: req.user.id
+        });
+
+        if (!repository) {
+            return res.status(404).json({
+                message: "Repository not found."
+            });
+        }
+
+        const file = await File.create({
+            repository: repository._id,
+            owner: req.user.id,
+            path: normalizedPath,
+            content
+        });
+
+        res.status(201).json({
+            message: "File created successfully.",
+            file
+        });
+    } catch (error) {
+        if (error.code === 11000) {
+            return res.status(409).json({
+                message: "A file with this path already exists."
+            });
+        }
+
+        if (error.name === "CastError") {
+            return res.status(400).json({
+                message: "Invalid repository ID."
+            });
+        }
+
+        console.error("File creation error:", error);
+
+        res.status(500).json({
+            message: "Failed to create file."
+        });
+    }
+});
+
+app.get("/api/repositories/:repositoryId/files", authMiddleware, async (req, res) => {
+    try {
+        const { repositoryId } = req.params;
+
+        const repository = await Repository.findOne({
+            _id: repositoryId,
+            owner: req.user.id
+        });
+
+        if (!repository) {
+            return res.status(404).json({
+                message: "Repository not found."
+            });
+        }
+
+        const files = await File.find({
+            repository: repository._id,
+            owner: req.user.id
+        }).sort({ path: 1 });
+
+        res.json({ files });
+    } catch (error) {
+        if (error.name === "CastError") {
+            return res.status(400).json({
+                message: "Invalid repository ID."
+            });
+        }
+
+        console.error("File listing error:", error);
+
+        res.status(500).json({
+            message: "Failed to fetch files."
         });
     }
 });

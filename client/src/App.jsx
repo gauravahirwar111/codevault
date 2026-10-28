@@ -24,6 +24,7 @@ export default function App() {
     const [creating, setCreating] = useState(false);
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
+    const [selectedRepository, setSelectedRepository] = useState(null);
 
     async function loadRepositories(token) {
         setLoading(true);
@@ -117,6 +118,66 @@ export default function App() {
             .toLowerCase()
             .includes(search.toLowerCase())
     );
+    if (selectedRepository) {
+        return (
+            <div className="repository-detail-page">
+                <header className="repository-detail-header">
+                    <button
+                        className="back-button"
+                        onClick={() => setSelectedRepository(null)}
+                    >
+                        ← Back to repositories
+                    </button>
+
+                    <span className="repository-visibility">
+                        {selectedRepository.visibility}
+                    </span>
+                </header>
+
+                <main className="repository-detail-main">
+                    <div className="repository-detail-title">
+                        <div className="repository-icon">📁</div>
+
+                        <div>
+                            <h1>{selectedRepository.name}</h1>
+                            <p>
+                                {selectedRepository.description ||
+                                    "No description provided."}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className="repository-detail-info">
+                        <p>
+                            <strong>Visibility:</strong>{" "}
+                            {selectedRepository.visibility}
+                        </p>
+
+                        <p>
+                            <strong>Created:</strong>{" "}
+                            {new Date(
+                                selectedRepository.createdAt
+                            ).toLocaleDateString()}
+                        </p>
+                    </div>
+
+                    <section className="repository-files-section">
+                        <h2>Files</h2>
+
+                        <div className="repository-empty-files">
+                            <div className="repository-icon">📂</div>
+                            <h3>No files yet</h3>
+                            <p>
+                                Your repository has been created.
+                                File browsing will be available once
+                                we connect it to a real Git repository.
+                            </p>
+                        </div>
+                    </section>
+                </main>
+            </div>
+        );
+    }
 
     return (
         <div className="dashboard">
@@ -297,7 +358,12 @@ export default function App() {
                                         key={repo._id}
                                     >
                                         <div>
-                                            <h3>{repo.name}</h3>
+                                            <button
+                                                className="repository-name-button"
+                                                onClick={() => setSelectedRepository(repo)}
+                                            >
+                                                {repo.name}
+                                            </button>
                                             <p className="muted">
                                                 {repo.description ||
                                                     "No description provided."}
